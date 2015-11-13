@@ -1,31 +1,15 @@
-*For our [ECE 533]: Digital Image Processing final project*
+*For our [ECE 533]: Digital Image Processing final project. Looks like we have
+to we have to do this on top of what we already do.*
 
-### Development
-Let's have all development take place in Python. This also allows for access to
-the [Jupyter notebook], which is a great way to share results. There's an
-example in the file Project Proposal.ipynb.
+## Meetings
+* Let's meet every week, Friday at 11:15. The process notes can be found in
+  [NOTES.md](NOTES.md)
 
-[Jupyter notebook]:https://jupyter.org
-
-I detail how to step from Matlab to Python in a [blog post] -- it's not a big
-switch but offers some nice benefits.
-
-Here's some sample code that shows how similar they are:
-
-```python
-from pylab import *
-
-x = linspace(0, 1)
-y = x**2
-
-M, N = 3, 4
-A = rand(M, N)
-assert rank(A) == min(M, N)
-
-figure()
-plot(x, y)
-show()
-```
+## Links to papers becca sent us
+* http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=661187&tag=1
+* http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=5963691
+* http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=5995521
+* http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6680763
 
 ### Collaboration
 Let's use GitHub to collaborate. This is how I develop; it allows to revert to
