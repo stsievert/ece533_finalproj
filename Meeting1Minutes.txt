@@ -1,0 +1,10 @@
+Minutes of meeting on 14thNov
+1 Scott made the sample program for Tikhonov regularisation - knowing the original filter
+2 The following tasks need to be done
+ 
+A. The code right now is implemented for square images - need to change the code so that it works 
+ on any dimension image
+B. Implementation of the algorithm when partial information ofH is known - say expected value of signal strength
+C. implementation when no information of H is known - final goal
+D. Read and implement the papers shared by Prof Willett
+
