@@ -1,8 +1,11 @@
 clc; clear all; close all;
 f = functions_();
 
-blur_sigma = 8;
+blur_sigma = 12;
 [x, X, h, H, y, Y, n] = f.input_and_observations(blur_sigma);
+
+sigma = 1e-3;
+H = H + sigma*randn(size(H));
 
 lambda = 1e-1;
 x_hat = f.ell2(H, Y, lambda);

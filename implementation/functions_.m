@@ -2,6 +2,12 @@ function f = functions_()
     f.show_image = @show_image;
     f.ell2 = @ell2;
     f.input_and_observations = @input_and_observations;
+
+    f.x_gradient = @x_gradient;
+end
+
+function x_hat = x_gradient(y, A, x, lambda)
+    x_hat = -2.*A' * (y-A*x) + lambda.*x;
 end
 
 function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
@@ -15,6 +21,7 @@ function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
     % :returns y, Y: The space and Fourier representations (resepecitvely)
     %                of the observations
     x = double( imread(['data/', 'cameraman.png']) );
+    x = imresize(x, [64, 64]);
     x = x(:, :, 1) / max(x(:)); % assume gray scale image
     n = size(x, 1);
     X = fft2(x);
