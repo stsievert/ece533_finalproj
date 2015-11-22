@@ -6,7 +6,7 @@ to we have to do this on top of what we already do.*
   [NOTES.md](NOTES.md)
 
 ## Links to papers becca sent us
-* http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=661187&tag=1
+* http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=661187
 * http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=5963691
 * http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=5995521
 * http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6680763
