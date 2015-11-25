@@ -98,13 +98,13 @@ function fnew=conserve_energy(f)
     % Output - fnew - contains no element with value<0
     
     % Initialisations 
-    [s1,s2]=size(f);fnew(1:s1,1:s2)=0;f=double(f);lower_limit=-0.0001;
-    
-    while(min(f(:))<lower_limit)
+    [s1,s2]=size(f);fnew(1:s1,1:s2)=0;f=double(f);lower_limit=-0.000001;
+    iteration_number=1;num_iterations=5;
+    while(min(f(:))<lower_limit&&iteration_number<num_iterations)
         E=0;
          for i=1:s2
             for j=1:s2
-                if(f(i,j)<0)
+                if(f(i,j)<lower_limit)
                     fnew(i,j)=0;E=E+abs(f(i,j));
                 else
                    fnew(i,j)=f(i,j); 
@@ -113,6 +113,7 @@ function fnew=conserve_energy(f)
         end
         fnew=f+E/(s1*s2);
         f=fnew;
+        iteration_number=iteration_number+1;
     end
     fnew(fnew<0)=-lower_limit;
    
