@@ -111,7 +111,7 @@ function fnew=conserve_energy(f)
                 end
             end
         end
-        fnew=f+E/(s1*s2);
+        fnew=fnew+E/(s1*s2);
         f=fnew;
         iteration_number=iteration_number+1;
     end

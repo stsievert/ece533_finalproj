@@ -11,12 +11,13 @@
     
     %initial estimates
 %     f=randn(size(x,1));
-    f=y+0.01*randn(size(x,1));
+    f=y+1e-10*randn(size(x,1));
+    %f=y;
     f=double(f);F=fft2(f);
     G=C./F;
     
     g=real(ifft2(G));
-    g(g<0)=0;
+    g(g<0)=0;% Error
     G=fft2(g);
     
     %now G and F are initialised and we need to do iterations - function
