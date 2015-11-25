@@ -2,9 +2,15 @@ Minutes of meeting on 14thNov
 1 Scott made the sample program for Tikhonov regularisation - knowing the original filter
 2 The following tasks need to be done
  
-A. The code right now is implemented for square images - need to change the code so that it works 
+A. Done The code right now is implemented for square images - need to change the code so that it works 
  on any dimension image
+ Alternative approach - to consider a square and a rectangle in another square image- Skip for now, not the main objective
 B. Implementation of the algorithm when partial information ofH is known - say expected value of signal strength
+   Example - weiner filter	
 C. implementation when no information of H is known - final goal
+    tv_fista_deblur 
 D. Read and implement the papers shared by Prof Willett
+
+
+Send the matrix to inpainting function as a column vector
 

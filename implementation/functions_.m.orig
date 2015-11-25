@@ -2,8 +2,17 @@ function f = functions_()
     f.show_image = @show_image;
     f.ell2 = @ell2;
     f.input_and_observations = @input_and_observations;
+<<<<<<< HEAD
+
+    f.x_gradient = @x_gradient;
+end
+
+function x_hat = x_gradient(y, A, x, lambda)
+    x_hat = -2.*A' * (y-A*x) + lambda.*x;
+=======
     f.reconstruct1=@reconstruct1;
     f.conserve_energy=@conserve_energy;
+>>>>>>> origin/master
 end
 
 function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
@@ -16,12 +25,17 @@ function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
     %                of the convolution matrix
     % :returns y, Y: The space and Fourier representations (resepecitvely)
     %                of the observations
+<<<<<<< HEAD
+    x = double( imread(['data/', 'cameraman.png']) );
+    x = imresize(x, [64, 64]);
+=======
     
     % Adding - uigetfile to open a file along with some memory of last
     % location
     x = ( imread(['data/', 'cameraman.png']) );
     if(size(x,3)==3),x=rgb2gray(x);x=double(x);end % conversion to grayscale
     if(size(x,1)~=size(x,2)),x=x(1:min(size(x,1),size(x,2)),1:min(size(x,1),size(x,2))); end %considering only square images
+>>>>>>> origin/master
     x = x(:, :, 1) / max(x(:)); % assume gray scale image
     n = size(x, 1);
     X = fft2(x);
