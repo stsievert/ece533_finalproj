@@ -4,6 +4,7 @@ function f = functions_()
     f.input_and_observations = @input_and_observations;
     f.reconstruct1=@reconstruct1;
     f.conserve_energy=@conserve_energy;
+    f.show=@show;
 end
 
 function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
@@ -19,7 +20,7 @@ function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
     
     % Adding - uigetfile to open a file along with some memory of last
     % location
-    x = ( imread(['data/', 'cameraman.png']) );
+    x = ( imread(['data/', 'trash_image.png']) );
     if(size(x,3)==3),x=rgb2gray(x);x=double(x);end % conversion to grayscale
     if(size(x,1)~=size(x,2)),x=x(1:min(size(x,1),size(x,2)),1:min(size(x,1),size(x,2))); end %considering only square images
     x = x(:, :, 1) / max(x(:)); % assume gray scale image
@@ -71,16 +72,16 @@ function Fnew=reconstruct1(Fold,G,C,BETA,noise_level)
     
     %initialisations
     [s1,s2]=size(Fold); Fnew(1:s1,1:s2)=0;
-    
+    epsilon=1e-4;
     for i=1:s1
         for j=1:s2
             if(abs(C(i,j)<noise_level))
                 Fnew(i,j)=Fold(i,j);
             elseif(abs(G(i,j))>=abs(C(i,j)))
-                Fnew(i,j)=(1-BETA)*Fold(i,j)+BETA*C(i,j)/G(i,j);
+                Fnew(i,j)=(1-BETA)*Fold(i,j)+BETA*C(i,j)/(G(i,j)+epsilon);
             elseif(abs(G(i,j))<abs(C(i,j)))
-                temp=(1-BETA)/Fold(i,j)+BETA*G(i,j)/C(i,j);
-                Fnew(i,j)=1/temp;
+                temp=(1-BETA)/(Fold(i,j)+epsilon)+BETA*G(i,j)/(C(i,j)+epsilon);
+                Fnew(i,j)=1/(temp+epsilon);
             end
         end
     end
@@ -98,9 +99,13 @@ function fnew=conserve_energy(f)
     % Output - fnew - contains no element with value<0
     
     % Initialisations 
-    [s1,s2]=size(f);fnew(1:s1,1:s2)=0;f=double(f);lower_limit=-0.000001;
+    [s1,s2]=size(f);fnew(1:s1,1:s2)=0;f=double(f);
+    %lower_limit=-0.000001;
+    lower_limit=0;
     iteration_number=1;num_iterations=5;
+    FLAG=0;% 0 INDICATES THE LOOP WAS NOT ENTERED- output f itself
     while(min(f(:))<lower_limit&&iteration_number<num_iterations)
+        FLAG=1;
         E=0;
          for i=1:s2
             for j=1:s2
@@ -116,5 +121,14 @@ function fnew=conserve_energy(f)
         iteration_number=iteration_number+1;
     end
     fnew(fnew<0)=-lower_limit;
-   
+   if(FLAG==0),fnew=f;end;
+       
+end
+
+function []=show(f1,f2,s1)
+    clf;
+     subplot(121);imagesc(f1);colormap gray;colorbar;
+    subplot(122);imagesc(f2);colormap gray;colorbar;
+      title(s1);
+      pause(5);
 end
