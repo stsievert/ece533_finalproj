@@ -9,3 +9,11 @@ By 2015-11-20 reimplement Lab 4. That involves
   implement below by next week
 * deblurring image when H is slightly unknown *(Decided on Saturday)*
 
+### Meeting 2015-11-30
+* implement different paper (Smita)
+* verify Richardson-Lucy alg is working (Scott)
+* implement Richardson-Lucy on an image (Scott)
+* get 1988 paper working (Gunnet)
+    * with inverse, weiner
+    * try better (perfect) estimate of X, H
+
