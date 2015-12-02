@@ -54,6 +54,6 @@
     %Step8
         f=fns.conserve_energy(f);
         subplot(121);imagesc(x);colormap gray;title('original image');
-        subplot(122);imagesc(f);colormap gray;title('f');
+        subplot(122);imagesc(f);colormap gray;title(['Reconstructed image ' num2str(i) ' iteration']);
         pause(1);
     end

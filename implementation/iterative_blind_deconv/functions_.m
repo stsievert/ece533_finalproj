@@ -5,6 +5,9 @@ function f = functions_()
     f.reconstruct1=@reconstruct1;
     f.conserve_energy=@conserve_energy;
     f.show=@show;
+    f.normalize=@normalize;
+    f.reconstruct2=@reconstruct2;
+    f.weiner=@weiner;
 end
 
 function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
@@ -72,7 +75,8 @@ function Fnew=reconstruct1(Fold,G,C,BETA,noise_level)
     
     %initialisations
     [s1,s2]=size(Fold); Fnew(1:s1,1:s2)=0;
-    epsilon=1e-4;
+    epsilon=0;%1e-4;
+    
     for i=1:s1
         for j=1:s2
             if(abs(C(i,j)<noise_level))
@@ -86,6 +90,15 @@ function Fnew=reconstruct1(Fold,G,C,BETA,noise_level)
         end
     end
     return;
+end
+
+function Fnew=reconstruct2(Fold,G,C,BETA,noiseVariance)
+    %Fnew is calculated using Fold and Fprocessed
+    c=abs(ifft2(C));
+    H=G;
+    fprocessed=weiner(c,H,noiseVariance);
+    Fprocessed=fft2(fprocessed);
+    Fnew=(1-BETA)*Fold+BETA*Fprocessed;
 end
 
 function fnew=conserve_energy(f)
@@ -104,6 +117,8 @@ function fnew=conserve_energy(f)
     lower_limit=0;
     iteration_number=1;num_iterations=5;
     FLAG=0;% 0 INDICATES THE LOOP WAS NOT ENTERED- output f itself
+    epsilon=0.0001;
+    
     while(min(f(:))<lower_limit&&iteration_number<num_iterations)
         FLAG=1;
         E=0;
@@ -120,9 +135,9 @@ function fnew=conserve_energy(f)
         f=fnew;
         iteration_number=iteration_number+1;
     end
-    fnew(fnew<0)=-lower_limit;
+   
    if(FLAG==0),fnew=f;end;
-       
+     fnew(fnew==0)=epsilon;  
 end
 
 function []=show(f1,f2,s1)
@@ -131,4 +146,31 @@ function []=show(f1,f2,s1)
     subplot(122);imagesc(f2);colormap gray;colorbar;
       title(s1);
       pause(5);
+end
+
+function[y]=normalize(x)
+    MAX=max(x(:));MIN=min(x(:));
+    y=(x-MIN)/(MAX-MIN);
+end
+
+function[y]=weiner(x,H,noiseVariance)
+    [s1,s2]=size(x);
+    X=fft2(x);
+    W(1:s1,1:s2)=0;
+    S=sum(x(:).^2)/(s1*s2);%power of y- assuming power of original and distorted image is same
+    K=noiseVariance;
+    for i=1:s1
+            for j=1:s2
+                num=(abs(H(i,j)))^2;
+                den=H(i,j)*(num+K/S);
+                if(den~=0)
+                    W(i,j)=num/den;
+                else
+                   W(i,j)=1.0; 
+                end
+            end
+    end
+    Y=W.*X;
+    Y=fftshift(Y);
+    y=abs(ifft2(Y));
 end
