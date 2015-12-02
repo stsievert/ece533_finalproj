@@ -48,7 +48,7 @@
     %Step5
         G=fft2(g);
     %Step6
-        F=C./G;
+        F=C./G;% this is inverse filtering that's why naive
     %Step7
         f=real(ifft2(F));
     %Step8
