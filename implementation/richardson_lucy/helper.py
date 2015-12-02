@@ -6,14 +6,24 @@ import skimage
 from skimage import data
 
 def get_image(image_of, as_gray=True, small=False, extension='.png'):
+    if image_of == 'circle':
+        n = 64
+        z = np.zeros((n, n))
+        t = np.linspace(-1, 1, num=n)
+        x, y = np.meshgrid(t, t)
+        z[x**2 + y**2 < 1/4] = 1
+        return z
+
     DATA_FOLDER = '../data/'
     FILENAME = DATA_FOLDER+image_of
     if small:
         FILENAME += '_small'
     FILENAME += extension
     x = data.imread(FILENAME)
+
     if as_gray:
         x = skimage.color.rgb2gray(x)
+
     x = np.asarray(x, dtype=float)
     x /= x.max()
     return x
@@ -30,6 +40,9 @@ def gaussian(sigma=30, N=10):
     return h1*h2
 
 def blur_and_noise(name='cameraman', sigma=1, noise_sigma=0):
+    """
+    :returns: (x, X), (y, Y), (h, H)
+    """
     x = get_image(name)
     n = x.shape[0]
     X = np.fft.fft2(x)
@@ -64,21 +77,24 @@ def plot_gaussian_and_boxcar():
 
     plt.show()
 
-def show_images(imgs_and_titles, figsize=None, cmaps=None, cmap='gray', colorbar=False, **kwargs):
+def show_images(imgs_and_titles, figsize=None, cmaps=None, cmap='gray',
+        colorbar=False, drawnow=False, **kwargs):
     N = len(imgs_and_titles.keys())
     if N == 0: print("yes")
     if not cmaps and (not cmap): cmaps = [None] * N
     if not cmaps: cmaps = [cmap] * N
     m = 1 if N<6 else 2
     n = N if m == 1 else N/2
-    plt.figure(figsize=figsize)
+    if N==4: m, n = 2, 2
+    if N==5: m, n = 2, 3
+    if not drawnow: plt.figure(figsize=figsize)
     for i, (title, img) in enumerate(imgs_and_titles.items()):
         plt.subplot(m, n, i+1)
         plt.imshow(img, cmap=cmaps[i], **kwargs)
         plt.title(title)
         plt.axis('off')
         if colorbar: plt.colorbar()
-    plt.show()
+    if not drawnow: plt.show()
 
 def plot_computational_adv(k, m, m_brute, m_box, m_better):
     import seaborn as sns; sns.set()
