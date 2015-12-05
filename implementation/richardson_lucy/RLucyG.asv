@@ -1,0 +1,10 @@
+blur_sigma=4;
+fns=functions_();
+[x, X, h, H, y, Y, n] = fns.input_and_observations(blur_sigma);
+figure;fns.show(x,y,'original and blurred');
+
+c=y;
+blindSigma=6;
+%initial estimates
+f=y;g=fspecial('gaussian',size(x,1),blindSigma);
+gk=fns.RLucyfnG(g,f,c,1);

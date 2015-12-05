@@ -4,8 +4,8 @@
     [x, X, h, H, y, Y, n] = fns.input_and_observations(blur_sigma);
     
     figure;
-    subplot(121);imagesc(y);colormap gray;title('filtered');
-    subplot(122);imagesc(x);colormap gray;title('orignial');
+    subplot(121);imagesc(y);colormap gray;title('filtered');colorbar;
+    subplot(122);imagesc(x);colormap gray;title('orignial');colorbar;
     
     % change of notation for direct correlation with the 1988 Paper
     % C is the only info available , 
@@ -53,7 +53,7 @@
         f=real(ifft2(F));
     %Step8
         f=fns.conserve_energy(f);
-        subplot(121);imagesc(x);colormap gray;title('original image');
-        subplot(122);imagesc(f);colormap gray;title('f');
+        subplot(121);imagesc(x);colormap gray;title('original image');colorbar;
+        subplot(122);imagesc(f);colormap gray;title('f');colorbar;
         pause(1);
     end

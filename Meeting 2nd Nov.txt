@@ -1,0 +1,17 @@
+Smita
+1 send zipped code
+2 send paper reserach 
+3 install git bash for pushing and push the code
+4 work on convergence issue
+
+Guneet
+1 Refine Smita's paper for convergense 
+2 use 1988 modified paper for fixing error in 1988 paper
+3 refine the presentation and add stuff - 
+
+
+Scott 
+1 Presentation 
+2 Bigger Gaussian 
+3 tune parameters 
+4 
