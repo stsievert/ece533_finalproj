@@ -6,6 +6,7 @@ function f = functions_()
     f.conserve_energy=@conserve_energy;
     f.show=@show;
     f.RLucyfnG=@RLucyfnG;
+    f.RLucyfnF=@RLucyfnF;
 end
 
 function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
@@ -137,18 +138,24 @@ end
 
 function [gknew]=RLucyfnG(gkold,fkold,c)
     gknew=zeros(size(gkold));
-    gknew=conv2(gkold,fkold,'same');debug(gknew)
-    gknew=c./gknew;debug(gknew)
-    gknew=conv2(gknew,fliplr(flipud(fkold)),'same');debug(gknew)
-    gknew=gknew.*gkold;debug(gknew)
+    gknew=conv2(gkold,fkold,'same');%debug(gknew)
+    gknew=c./gknew;%debug(gknew)
+    gknew=conv2(gknew,fliplr(flipud(fkold)),'same');%debug(gknew)
+    gknew=gknew.*gkold;%debug(gknew)
     gknew=gknew/sum(gknew(:));
-    pause(1);
+%    pause(1);
 end
 
 function[fknew]=RLucyfnF(fkold,gkold,c)
-
+    %figure;
+    fknew=zeros(size(fkold));           debug(fknew);
+    fknew=conv2(fkold,gkold,'same');    debug(fknew);
+    fknew=c./fknew;                     debug(fknew);
+    fknew=conv2(fknew,fliplr(flipud(gkold)),'same');    debug(fknew);
+    fknew=fknew.*fkold;                 debug(fknew);
+    fknew=fknew/max(fknew(:));          debug(fknew);
 end
 
 function []=debug(gknew)
-% figure;imagesc(gknew);colormap gray;colorbar
+    %imagesc(gknew);colormap gray;colorbar
 end
