@@ -17,10 +17,11 @@ function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
     %                of the convolution matrix
     % :returns y, Y: The space and Fourier representations (resepecitvely)
     %                of the observations
-    
+
     % Adding - uigetfile to open a file along with some memory of last
     % location
     x = ( imread(['data/', 'trash_image.png']) );
+    x = ( imread(['data/', 'cross.png']) );
     if(size(x,3)==3),x=rgb2gray(x);x=double(x);end % conversion to grayscale
     if(size(x,1)~=size(x,2)),x=x(1:min(size(x,1),size(x,2)),1:min(size(x,1),size(x,2))); end %considering only square images
     x = x(:, :, 1) / max(x(:)); % assume gray scale image
@@ -61,15 +62,15 @@ function show_image(x)
 end
 
 function Fnew=reconstruct1(Fold,G,C,BETA,noise_level)
-%     Inputs - 
+%     Inputs -
 %     Fold - old fft transform of reconsrtucted image of last step
 %     G- fft transform of filter of last step
 %     C- fft transform of the output image
 %     Beta - control for estimation of Fnew- domain=[0,1]
 %     noise_level - noise level in the originall image - can be an estimated value
-%     Output - 
+%     Output -
 %     Fnew - new estimate of F
-    
+
     %initialisations
     [s1,s2]=size(Fold); Fnew(1:s1,1:s2)=0;
     epsilon=1e-4;
@@ -89,16 +90,16 @@ function Fnew=reconstruct1(Fold,G,C,BETA,noise_level)
 end
 
 function fnew=conserve_energy(f)
-    % conserves the energy in image f. For all values in f <0, ,mean of 
+    % conserves the energy in image f. For all values in f <0, ,mean of
     % absolute values is added to each pixel in f.
-    % process is repeated till no pixel in fnew is <lower_limit . Because 
+    % process is repeated till no pixel in fnew is <lower_limit . Because
     % the minimum pixel value will never be greater than 0
-    
+
     % This functionality assumes that the number of pixels with negative
-    % values are less. 
+    % values are less.
     % Output - fnew - contains no element with value<0
-    
-    % Initialisations 
+
+    % Initialisations
     [s1,s2]=size(f);fnew(1:s1,1:s2)=0;f=double(f);
     %lower_limit=-0.000001;
     lower_limit=0;
@@ -112,7 +113,7 @@ function fnew=conserve_energy(f)
                 if(f(i,j)<lower_limit)
                     fnew(i,j)=0;E=E+abs(f(i,j));
                 else
-                   fnew(i,j)=f(i,j); 
+                   fnew(i,j)=f(i,j);
                 end
             end
         end
@@ -122,7 +123,7 @@ function fnew=conserve_energy(f)
     end
     fnew(fnew<0)=-lower_limit;
    if(FLAG==0),fnew=f;end;
-       
+
 end
 
 function []=show(f1,f2,s1)

@@ -4,8 +4,8 @@
     [x, X, h, H, y, Y, n] = fns.input_and_observations(blur_sigma);
     
     figure;
-    subplot(121);imagesc(y);colormap gray;title('filtered');colorbar;
-    subplot(122);imagesc(x);colormap gray;title('orignial');colorbar;
+    subplot(121);imagesc(y);colormap gray;title('filtered');
+    subplot(122);imagesc(x);colormap gray;title('orignial');
     
     % change of notation for direct correlation with the 1988 Paper
     % C is the only info available , 
@@ -18,19 +18,20 @@
     f=fns.conserve_energy(f);%f should be non negative
    
     %Step1
-        F=fft2(f);
+    F=fft2(f);
     %Step2
-        G=C./F;     
-    %Step3 
-        g=real(ifft2(G));
+    G=fftshift(C./(F + 1e-9));
+    %G = H;
+    %Step3
+    g=abs(ifft2(G));
     %Step4
-        g=fns.conserve_energy(g);
+    g=fns.conserve_energy(g);
     %Step5
-        G=fft2(g);
+    G=fftshift(fft2(fftshift(g)));
     %Step6
-        F=C./G;
+    F=C./(G + 1e-9);
     %Step7
-        f=real(ifft2(F));
+    f=fftshift(abs(ifft2(F)));
     %Step8
         f=fns.conserve_energy(f);
         
@@ -53,7 +54,7 @@
         f=real(ifft2(F));
     %Step8
         f=fns.conserve_energy(f);
-        subplot(121);imagesc(x);colormap gray;title('original image');colorbar;
-        subplot(122);imagesc(f);colormap gray;title('f');colorbar;
+        subplot(121);imagesc(x);colormap gray;title('original image');
+        subplot(122);imagesc(f);colormap gray;title('f');
         pause(1);
     end

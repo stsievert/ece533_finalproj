@@ -1,6 +1,6 @@
 function [out,blur_kernel]=fiddle_lucy3(file_name,LUCY_ITS_IN,SAVE_TO_DISK,SCALE_OFFSET_IN,THRESHOLD_IN)
 %
-% Rountine to call Richardson-Lucy algorithm after kernel inference  
+% Rountine to call Richardson-Lucy algorithm after kernel inference
 %
 % Inputs:
 % LUCY_ITS - integer. Default = 10. Sensible values 5 to
@@ -32,17 +32,17 @@ function [out,blur_kernel]=fiddle_lucy3(file_name,LUCY_ITS_IN,SAVE_TO_DISK,SCALE
 %    large number (i.e. 100). If you set it too high, it will start to
 %    erode the structure of the kernel. This parameter is a bit of a
 %    hack - in reality you shouldn't need it, but it can make quite a
-%    bit of difference if the inferred kernel is noisy. 
+%    bit of difference if the inferred kernel is noisy.
 %
 % Outputs:
-% 1. out - Deblurred image  
+% 1. out - Deblurred image
 % 2. blur_kernel - blur kernel after thresholding step.
 
 % Author: Rob Fergus
 % Version: 1.0, distribution code.
 % Project: Removing Camera Shake from a Single Image, SIGGRAPH 2006 paper
 % Copyright 2006, Massachusetts Institute of Technology
-  
+
 SHOW_BOX = 1; % show gray rectangle on blurry image indicating selected region
 EDGE_CROP = 1; % crop edge of deblurred image off (since you can't
                % recover it).
@@ -67,7 +67,7 @@ if (nargin==1)
   SCALE_OFFSET_IN = 0;
   SAVE_TO_DISK_IN = 0;
   THRESHOLD_IN = 10;
-end  
+end
 
 %%% Load up model
 load(file_name);
@@ -108,16 +108,16 @@ end
 fprintf('.');
 
 % use edgetaper to sort out edge effects
-obs_im_gam = edgetaper(obs_im_gam,blur_kernel); 
+obs_im_gam = edgetaper(obs_im_gam,blur_kernel);
 
 fprintf('.');
 
 % run RL
-out = deconvlucy(obs_im_gam,blur_kernel,LUCY_ITS);  
+out = deconvlucy(obs_im_gam,blur_kernel,LUCY_ITS);
 
 fprintf('.');
 
-     
+
 if (GAMMA_CORRECTION~=1)
   %%% Put gamma back in
   out = double(out).^(1/GAMMA_CORRECTION);
@@ -160,7 +160,7 @@ h=figure; imagesc(blur_kernel); colormap(gray);
 axis square; title('Inferred kernel');
 
 if SAVE_TO_DISK
-  
+
   % save kernel
   ExportFig(h,[file_name,'_kernel']);
   % save blurry

@@ -86,7 +86,7 @@ def show_images(imgs_and_titles, figsize=None, cmaps=None, cmap='gray',
     m = 1 if N<6 else 2
     n = N if m == 1 else N/2
     if N==4: m, n = 2, 2
-    if N==5: m, n = 2, 3
+    if N==5: m, n = 3, 2
     if not drawnow: plt.figure(figsize=figsize)
     for i, (title, img) in enumerate(imgs_and_titles.items()):
         plt.subplot(m, n, i+1)
