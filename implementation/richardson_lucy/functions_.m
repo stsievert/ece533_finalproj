@@ -7,6 +7,19 @@ function f = functions_()
     f.show=@show;
     f.RLucyfnG=@RLucyfnG;
     f.RLucyfnF=@RLucyfnF;
+    f.weiner=@weiner;
+end
+
+function [xest Xest]= weiner(H,Y)
+    S=mean((abs(Y(:))).^2);
+    V=0.1;
+    W=conj(H).*S;
+    W=W./((abs(H)).^2*S+V);
+    Xest=Y.*W;
+    xest=fftshift(abs(ifft2(Xest)));
+    xest=xest/max(xest(:));
+    Xest=fft2(xest);
+    
 end
 
 function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
@@ -22,7 +35,7 @@ function [x, X, h, H, y, Y, n] = input_and_observations(blur_sigma)
     
     % Adding - uigetfile to open a file along with some memory of last
     % location
-    x = ( imread('cameraman64.png'));
+    x = ( imread('cameraman.png'));
     if(size(x,3)==3),x=rgb2gray(x);x=double(x);end % conversion to grayscale
     if(size(x,1)~=size(x,2)),x=x(1:min(size(x,1),size(x,2)),1:min(size(x,1),size(x,2))); end %considering only square images
     x = x(:, :, 1) / max(x(:)); % assume gray scale image
@@ -137,12 +150,22 @@ function []=show(f1,f2,s1)
 end
 
 function [gknew]=RLucyfnG(gkold,fkold,c)
-    gknew=zeros(size(gkold));
-    gknew=conv2(gkold,fkold,'same');%debug(gknew)
-    gknew=c./gknew;%debug(gknew)
-    gknew=conv2(gknew,fliplr(flipud(fkold)),'same');%debug(gknew)
-    gknew=gknew.*gkold;%debug(gknew)
-    gknew=gknew/sum(gknew(:));
+      gkoldPad=padarray(gkold,[floor(size(gkold,1)/2),floor(size(gkold,2)/2)],'circular');
+      fkoldPad=padarray(fkold,[floor(size(fkold,1)/2),floor(size(fkold,2)/2)],'circular');
+       gknew=conv2(gkoldPad,fkoldPad,'same');
+       gknew=c./gknew(1+size(gknew,1)/4:end-size(gknew,1)/4,1+size(gknew,2)/4:end-size(gknew,2)/4);
+       gknew=padarray(gknew,[floor(size(gknew,1)/2),floor(size(gknew,2)/2)],'circular');
+       fkMirrorPad=padarray(flipud(fliplr(fkold)),[floor(size(fkold,1)/2),floor(size(fkold,2)/2)],'circular');
+       gknew=conv2(gknew,fkMirrorPad,'same');
+       gknew=gknew(1+size(gknew,1)/4:end-size(gknew,1)/4,1+size(gknew,2)/4:end-size(gknew,2)/4);
+       gknew=gknew.*gkold;
+       gknew=gknew/sum(gknew(:));
+      %     gknew=zeros(size(gkold));
+%     gknew=conv2(gkold,fkold,'same');%debug(gknew)
+%     gknew=c./gknew;%debug(gknew)
+%     gknew=conv2(gknew,fliplr(flipud(fkold)),'same');%debug(gknew)
+%     gknew=gknew.*gkold;%debug(gknew)
+%     gknew=gknew/sum(gknew(:));
 %    pause(1);
 end
 
