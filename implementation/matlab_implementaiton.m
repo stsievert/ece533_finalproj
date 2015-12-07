@@ -11,9 +11,9 @@ h_hat = h0 * 1;
 lucy_iterations = 7;
 iterations = 20;
 for k=1:iterations,
-    %x_hat = deconvlucy(y, h_hat, lucy_iterations);
+    x_hat = deconvlucy(y, h_hat, lucy_iterations);
     %x_hat = deconvwnr(y, h_hat);
-    x_hat = deconvreg(y, h_hat);
+    %x_hat = deconvreg(y, h_hat);
     h_hat = deconvlucy(y, x_hat, lucy_iterations);
 end
 
@@ -24,23 +24,23 @@ f.show_image(x)
 title('Ground truth x')
 
 subplot(322)
-f.show_image(h0)
-title('Initial estimate for kernel')
+f.show_image(h)
+title('Kernel ground truth')
 
 subplot(323)
 f.show_image(y)
 title('Observations y')
 
 subplot(324)
+f.show_image(h0)
+title('Initial estimate for kernel')
+
+subplot(325)
 f.show_image(x_hat)
 title('Estimation x\_hat')
 
-subplot(325)
+subplot(326)
 f.show_image(h_hat)
 title('Kernel estimate')
-
-subplot(326)
-f.show_image(h)
-title('Kernel ground truth')
 
 linkaxes
