@@ -5,15 +5,25 @@ f = functions_();
 blur_sigma = 6;
 [x, X, h, H, y, Y, n] = f.input_and_observations(blur_sigma);
 blur_sigma_hat = 1.5*blur_sigma;
-[~, ~, h0, ~, ~, ~, ~] = f.input_and_observations(blur_sigma_hat);
-h_hat = h0 * 1;
+[~, ~, h_hat, ~, ~, ~, ~] = f.input_and_observations(blur_sigma_hat);
 
+% How many iterations are required to get a good approximation for the variable
+% we're optimizing before?
 lucy_iterations = 7;
+
+% How many times do we switch back and forth between optimizing for each
+% variable?
 iterations = 20;
 for k=1:iterations,
+    % Optimize for x_hat. These values can be treated as a black box; we can
+    % swap any of the out (makes sense by looking at the input/outputs)
     x_hat = deconvlucy(y, h_hat, lucy_iterations);
     %x_hat = deconvwnr(y, h_hat);
     %x_hat = deconvreg(y, h_hat);
+
+    % Estimate H. Richardson-Lucy doesn't make any assumptions about the form of
+    % the equation and X and H are interchangable. It goes of the Fourier
+    % tranfrom representation.
     h_hat = deconvlucy(y, x_hat, lucy_iterations);
 end
 
