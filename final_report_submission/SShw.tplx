@@ -37,7 +37,7 @@
 
 ((* block title *))
 \author{\href{http://scottsievert.com}{Scott Sievert},
-    Gunnet Singh Mehta,
+    Guneet Singh Mehta,
     Smita Bagewadi
 }
 \title{Blind Deconvolution}
@@ -49,7 +49,8 @@
     ~\vspace{20em}\\
     \textrm{\Huge \@title}\\~\\%
     {\Large \@author}\\~\\~\\
-    \textrm{\large ECE 533: Image Processing final report}\\
+    \textrm{\large ECE 533: Image Processing}\\
+    \textrm{\large Final Report}\\
     {\large \@date}
     %\vspace{5em}
     \vfill
