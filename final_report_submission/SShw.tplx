@@ -1,0 +1,76 @@
+
+% Default to the notebook output style
+((* if not cell_style is defined *))
+    ((* set cell_style = 'style_ipython.tplx' *))
+((* endif *))
+
+% Inherit from the specified cell style.
+((* extends cell_style *))
+
+
+%===============================================================================
+% Latex Article
+%===============================================================================
+
+%%%%%%%%%%%%%%%%%%%%%
+%%% SCOTT SIEVERT %%%
+%%%%%%%%%%%%%%%%%%%%%
+% LATEX generated with command
+% ipython nbconvert --to pdf --template SShw filename.ipynb
+%
+% ### NOTES
+% * `\begin{align}` works in the IPython notebook but fails on compilation;
+%   use `\begin{aligned}` instead (because you're in math mode)
+% * I ran into an issue defining variables in the notebook then using that command while
+%   using nbconvert. I got around that by defining the commands in a single "raw nbconvert"
+%   cell and commenting/uncommenting $$ if using nbconvert.
+% * When reopening the notebook, I had to edit the cell to use the latex function again.
+% * I ran into issues where I had leading spaces before/after a ending/beginning $
+%       (same for newlines and $$)
+% * I ran into issues mixing math in section headings. Find a way not to include
+%   math in titles; it's the nicest solution (kind of like math and emails)
+% * I ran into issues with mixing math mode and \textrm. I had to escape outside
+%   of math mode -- instead of $...\textrm{ }...$ I used $...$ text $...$
+%
+% PYTHON code generated with command
+% ipython nbconvert --to python filename.ipynb
+
+((* block title *))
+\author{\href{http://scottsievert.com}{Scott Sievert},
+    Gunnet Singh Mehta,
+    Smita Bagewadi
+}
+\title{Blind Deconvolution}
+%\date{ }
+\setcounter{tocdepth}{2}
+\makeatletter
+\def\maketitle{%
+\begin{center}
+    ~\vspace{20em}\\
+    \textrm{\Huge \@title}\\~\\%
+    {\Large \@author}\\~\\~\\
+    \textrm{\large ECE 533: Image Processing final report}\\
+    {\large \@date}
+    %\vspace{5em}
+    \vfill
+   \thispagestyle{empty}
+   %\newpage
+
+   \tableofcontents
+   \thispagestyle{empty}
+   \newpage
+   \makeatother
+\end{center}
+}
+
+((* endblock title *))
+
+((* block docclass *))
+\documentclass{article}
+((* endblock docclass *))
+
+%((* block abstract *))
+%\tableofcontents
+%((* endblock abstract *))
+
+
